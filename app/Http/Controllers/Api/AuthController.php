@@ -5,56 +5,62 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Models\User;
+use App\Services\AuthService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+use Log;
 
 class AuthController extends Controller
 {
+    protected $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function register(RegisterRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-        // $user['token'] = $user->createToken('auth_token')->plainTextToken;
-        
-        return response()
-            ->json([
-                'message' => __('api_message.user_register'),
-                'data' => $user,
-            ], 200);
+        try {
+            $user = $this->authService->register($request->validated());
+            return response()
+                ->json([
+                    'message' => __('api_message.user_register'),
+                    'data' => $user,
+                ], 200);
+        } catch (\Exception $e) {
+            Log::info("Error in register user: " . $e->getMessage());
+            return response()->json(['data' => ['errors' => 'Something went wrong!']], 500);
+        }
     }
 
     public function login(LoginRequest $request)
     {
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-             return response()
-            ->json([
-                'message' => __('api_message.invalid_credentials'),
-                'data' => null,
-            ], 200);
+        try {
+            $user = $this->authService->login($request->validated());
+            return response()
+                ->json([
+                    'message' => __('api_message.login_sucess'),
+                    'data' => $user,
+                ], 200);
+        } catch (ValidationException $e) {
+            Log::info("Error in login: " . $e->getMessage());
+            return response()->json(['data' => ['errors' => 'Something went wrong!']], 500);
         }
-
-        $user['token'] = $user->createToken('auth_token')->plainTextToken;
-        
-        return response()
-            ->json([
-                'message' => __('api_message.login_sucess'),
-                'data' => $user,
-            ], 200);
     }
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-        return response()
-            ->json([
-                'message' => __('api_message.logout'),
-                'data' => null,
-            ], 200);
+        try {
+            $this->authService->logout($request->user());
+            return response()
+                ->json([
+                    'message' => __('api_message.logout'),
+                    'data' => null,
+                ], 200);
+        } catch (\Exception $e) {
+            Log::info("Error in logout: " . $e->getMessage());
+            return response()->json(['data' => ['errors' => 'Something went wrong!']], 500);
+        }
     }
 }

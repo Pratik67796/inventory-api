@@ -54,12 +54,10 @@ class ProductService
             $query->whereBetween('price', [$filters['min_price'], $filters['max_price']]);
         }
 
-        if (isset($filters['stock'])) {
-            if ($filters['stock'] === 'in_stock') {
-                $query->where('stock', '>', 0);
-            } elseif ($filters['stock'] === 'out_of_stock') {
-                $query->where('stock', '=', 0);
-            }
+       if (isset($filters['stock'])) {
+            $stockQty = (int) $filters['stock'];
+
+            $query->where('quantity', '>=', $stockQty);
         }
 
         return $query->with(['category', 'supplier'])->paginate($limit, ['*'], 'page', $offset);

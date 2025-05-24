@@ -2,14 +2,13 @@
 
 namespace App\Repositories\Contracts;
 
-interface ProductRepositoryInterface extends CommanRepositoryInterface
+interface ProductRepositoryInterface
 {
+    public function all($limit, $offset);
+    public function find($id);
+    public function create(array $data);
+    public function update($id, array $data);
+    public function delete($id);
     public function getQuery();
-    public function findBySku($sku);
-    public function findByCategory($categoryId);
-    public function findByPriceRange($minPrice, $maxPrice);
-    public function findInStock();
-    public function findOutOfStock();
-    public function findLowStock($threshold = 10);
     public function updateQuantity($id, $quantity, $type, $userId, $notes = null);
 }

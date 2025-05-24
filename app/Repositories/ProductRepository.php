@@ -49,40 +49,6 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->model->findOrFail($id)->delete();
     }
 
-    public function findBySku($sku)
-    {
-        return $this->model->where('sku', $sku)->first();
-    }
-
-    public function findByCategory($categoryId)
-    {
-        return $this->model->with(['category', 'supplier'])
-            ->where('category_id', $categoryId)
-            ->get();
-    }
-
-    public function findByPriceRange($minPrice, $maxPrice)
-    {
-        return $this->model->with(['category', 'supplier'])
-            ->whereBetween('price', [$minPrice, $maxPrice])
-            ->get();
-    }
-
-    public function findInStock()
-    {
-        return $this->model->with(['category', 'supplier'])->inStock()->get();
-    }
-
-    public function findOutOfStock()
-    {
-        return $this->model->with(['category', 'supplier'])->outOfStock()->get();
-    }
-
-    public function findLowStock($threshold = 10)
-    {
-        return $this->model->with(['category', 'supplier'])->lowStock($threshold)->get();
-    }
-
     public function updateQuantity($id, $quantity, $type, $userId, $notes = null)
     {
         return DB::transaction(function () use ($id, $quantity, $type, $userId, $notes) {

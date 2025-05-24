@@ -140,7 +140,6 @@ class ProductController extends Controller
     public function updateInventory(UpdateInventoryRequest $request, $id)
     {
         try {
-            dd(auth()->id());
             $product = $this->productService->updateInventory(
                 $id,
                 $request->quantity,
