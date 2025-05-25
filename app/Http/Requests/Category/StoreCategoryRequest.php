@@ -3,7 +3,8 @@
 namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 class StoreCategoryRequest extends FormRequest
 {
     /**
@@ -25,5 +26,23 @@ class StoreCategoryRequest extends FormRequest
            'name' => 'required|string|max:255',
            'description' => 'required|string|max:255',
         ];
+    }
+
+     public function messages(): array
+    {
+        return [
+            'name.required' => 'Name is required.',
+            'name.string' => 'Name must be a string.',
+            'description.required' => 'Description is required.',
+            'description.string' => 'Description must be a string',
+        ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        // it will show error if you cant pass validation rules
+        throw new HttpResponseException(response()->json([
+            'data' => ['errors' => $validator->errors()]
+        ], 422));
     }
 }

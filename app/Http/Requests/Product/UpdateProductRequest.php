@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
@@ -52,5 +53,21 @@ class UpdateProductRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'data' => ['errors' => $validator->errors()]
         ], 422));
+    }
+    
+
+    protected function prepareForValidation(): void
+    {
+        $productId = $this->route('id');
+
+        $product = Product::where('id', $productId)
+            ->whereNull('deleted_at')
+            ->first();
+
+        if (!$product) {
+            throw new HttpResponseException(response()->json([
+                'data' => ['errors' => ['id' => ['product Id not found or has been deleted.']]]
+            ], 404));
+        }
     }
 }

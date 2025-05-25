@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Product;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
@@ -26,13 +27,12 @@ class UpdateInventoryRequest extends FormRequest
          return [
             'quantity' => 'required|integer|min:1',
             'type' => 'required|in:add,reduce',
-            'notes' => 'nullable|string|max:5',
+            'notes' => 'nullable|string|max:500',
         ];
     }
 
     public function messages(): array
     {
-        // not working
         return [
             'quantity.required' => 'The quantity is required.',
             'quantity.integer' => 'The quantity must be a whole number.',
@@ -50,5 +50,20 @@ class UpdateInventoryRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'data' => ['errors' => $validator->errors()]
         ], 422));
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $productId = $this->route('id');
+
+        $product = Product::where('id', $productId)
+            ->whereNull('deleted_at')
+            ->first();
+
+        if (!$product) {
+            throw new HttpResponseException(response()->json([
+                'data' => ['errors' => ['id' => ['product Id not found or has been deleted.']]]
+            ], 404));
+        }
     }
 }

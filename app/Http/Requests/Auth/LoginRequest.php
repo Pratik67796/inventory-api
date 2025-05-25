@@ -29,4 +29,21 @@ class LoginRequest extends FormRequest
             'password' => 'required',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Email is required.',
+            'password.required' => 'Password is required.',
+        ];
+    }
+
+
+    protected function failedValidation(Validator $validator)
+    {
+        // it will show error if you cant pass validation rules
+        throw new HttpResponseException(response()->json([
+            'data' => ['errors' => $validator->errors()]
+        ], 422));
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Requests\Product\UpdateInventoryRequest;
+use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -123,6 +124,13 @@ class ProductController extends Controller
     public function delete($id)
     {
         try {
+            $product = Product::where('id', $id)->whereNull('deleted_at')->first();
+
+            if (!$product) {
+                return response()->json([
+                    'data' => ['errors' => ['id' => ['Product not found or already deleted.']]]
+                ], 404);
+            }
             $this->productService->deleteProduct($id);
             return response()->json(['data' => ['message' => __('api_message.product_deleted')]], 200);
         } catch (ValidationException $e) {
