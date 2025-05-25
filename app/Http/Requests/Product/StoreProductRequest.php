@@ -26,32 +26,39 @@ class StoreProductRequest extends FormRequest
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'sku' => 'nullable|string|unique:products,sku',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0|max:9999',
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'supplier_id' => 'required|exists:suppliers,id',
         ];
     }
 
-    public function messages(): array
+    public function messages()
     {
         return [
-            'name.required' => 'The product name is required.',
-            'name.string' => 'The product name must be a string.',
-            'name.max' => 'The product name may not be greater than 255 characters.',
-            'description.string' => 'The description must be a string.',
-            'sku.string' => 'The SKU must be a string.',
-            'sku.unique' => 'The SKU has already been taken.',
-            'price.required' => 'The price is required.',
-            'price.numeric' => 'The price must be a number.',
-            'price.min' => 'The price must be at least 0.',
-            'quantity.required' => 'The quantity is required.',
-            'quantity.integer' => 'The quantity must be a whole number.',
-            'quantity.min' => 'The quantity must be at least 0.', // Change to 1 if needed
-            'category_id.required' => 'The category is required.',
-            'category_id.exists' => 'The selected category is invalid.',
-            'supplier_id.required' => 'The supplier is required.',
-            'supplier_id.exists' => 'The selected supplier is invalid.',
+            'name.required' => 'Product name is required.',
+            'name.string' => 'Product name must be a valid string.',
+            'name.max' => 'Product name may not be greater than 255 characters.',
+
+            'description.string' => 'Description must be a valid string.',
+
+            'sku.string' => 'SKU must be a valid string.',
+            'sku.unique' => 'This SKU already exists. Please use a different SKU.',
+
+            'price.required' => 'Price is required.',
+            'price.numeric' => 'Price must be a numeric value.',
+            'price.min' => 'Price cannot be less than 0.',
+            'price.max' => 'Price cannot exceed 9999.',
+
+            'quantity.required' => 'Quantity is required.',
+            'quantity.integer' => 'Quantity must be an integer.',
+            'quantity.min' => 'Quantity cannot be negative.',
+
+            'category_id.required' => 'Category selection is required.',
+            'category_id.exists' => 'Selected category does not exist.',
+
+            'supplier_id.required' => 'Supplier selection is required.',
+            'supplier_id.exists' => 'Selected supplier does not exist.',
         ];
     }
 

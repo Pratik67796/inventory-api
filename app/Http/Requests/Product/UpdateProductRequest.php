@@ -35,17 +35,35 @@ class UpdateProductRequest extends FormRequest
         ];
     }
 
-    public function messages(): array
-    {
-        return [
-            'quantity.required' => 'The quantity is required.',
-            'quantity.integer' => 'The quantity must be a whole number.',
-            'quantity.min' => 'The quantity must be at least 1.',
-            'operation.required' => 'The operation type is required.',
-            'operation.in' => 'The operation must be either "add" or "reduce".',
-            'notes.max' => 'Notes cannot exceed 500 characters.',
-        ];
-    }
+    public function messages()
+{
+    return [
+        'name.required' => 'The product name is required.',
+        'name.string' => 'The product name must be a string.',
+        'name.max' => 'The product name must not exceed 255 characters.',
+
+        'description.string' => 'The description must be a string.',
+
+        'sku.string' => 'The SKU must be a string.',
+        'sku.unique' => 'This SKU is already in use. Please choose another.',
+
+        'price.required' => 'The price is required.',
+        'price.numeric' => 'The price must be a numeric value.',
+        'price.min' => 'The price must be at least 0.',
+        'price.max' => 'The price may not be greater than 9999.',
+
+        'quantity.required' => 'The quantity is required.',
+        'quantity.integer' => 'The quantity must be an integer.',
+        'quantity.min' => 'The quantity cannot be negative.',
+
+        'category_id.required' => 'The category is required.',
+        'category_id.exists' => 'The selected category does not exist.',
+
+        'supplier_id.required' => 'The supplier is required.',
+        'supplier_id.exists' => 'The selected supplier does not exist.',
+    ];
+}
+
 
     protected function failedValidation(Validator $validator)
     {
