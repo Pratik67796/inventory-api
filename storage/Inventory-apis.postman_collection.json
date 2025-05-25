@@ -1,0 +1,591 @@
+{
+	"info": {
+		"_postman_id": "982a72cb-9309-4708-87e1-3a44647bf330",
+		"name": "Inventory-apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "14460804"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Pratik\",\r\n    \"email\": \"pratik@yopmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/v1/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"pratik@yopmail.com\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/v1/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "22|O8LLVRvM8JqltCSeVRf9su12jDmZRnYNk9A5OGm61297a4d0"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "http://127.0.0.1:8000/api/v1/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Add Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "14|VqMSvtdmovLMsQKDV560vWEzs9bCLQXhbVMyrp3h652385ba"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_API_TOKEN"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"android\",\n    \"description\": \"Product description\",\n    \"price\": 99999999.99,\n    \"quantity\": \"1\",\n    \"category_id\": 2,\n    \"supplier_id\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/v1/products/add"
+					},
+					"response": []
+				},
+				{
+					"name": "List Products",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "22|O8LLVRvM8JqltCSeVRf9su12jDmZRnYNk9A5OGm61297a4d0"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/products?category_id=2&min_price=100&max_price=500&stock=1&limit=10&offset=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "category_id",
+									"value": "2"
+								},
+								{
+									"key": "min_price",
+									"value": "100"
+								},
+								{
+									"key": "max_price",
+									"value": "500"
+								},
+								{
+									"key": "stock",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "24|lsixauBYvc4OSzukEKsXd9KEwToSgLwPyt1b2G2e1c9187f7"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/products/:id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "26|XttTRDMHnBpIjaJ0RyqP1HjUrMTc1hSYimqrETqOd73c4d07"
+							}
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"android update\",\r\n    \"description\": \"Product description\",\r\n    \"price\": 999,\r\n    \"quantity\": 1,\r\n    \"category_id\": 2,\r\n    \"supplier_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/products/update/:id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "14|VqMSvtdmovLMsQKDV560vWEzs9bCLQXhbVMyrp3h652385ba"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/products/delete/:id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required schema for inventory data\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData).to.have.property('product_id');\r",
+									"    pm.expect(responseData).to.have.property('available_quantity');\r",
+									"    pm.expect(responseData).to.have.property('last_updated');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "14|VqMSvtdmovLMsQKDV560vWEzs9bCLQXhbVMyrp3h652385ba"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 2,\r\n    \"type\": \"add\",\r\n    \"notes\": \"hiiasdasd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/products/:id/inventory",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								":id",
+								"inventory"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorys",
+			"item": [
+				{
+					"name": "Add Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "24|lsixauBYvc4OSzukEKsXd9KEwToSgLwPyt1b2G2e1c9187f7"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_API_TOKEN"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Beverages\",\n    \"description\": \"asdasd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/v1/categories/add"
+					},
+					"response": []
+				},
+				{
+					"name": "List Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "24|lsixauBYvc4OSzukEKsXd9KEwToSgLwPyt1b2G2e1c9187f7"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/categories?limit=10&offset=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer 14|VqMSvtdmovLMsQKDV560vWEzs9bCLQXhbVMyrp3h652385ba"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Cookie",
+								"value": "XSRF-TOKEN=eyJpdiI6IjF3RnRxWlNPRDZVcjNOM05ETFYraFE9PSIsInZhbHVlIjoiVVhZYWhvSTNaTzBTU0o2R0I2eUVWelpLWGR2RysrZUNmdkIxMDVLWVRMb1RQZitSaVcweEhqY2JyMTBIMVo1TXhCMzJMUW4zVFhRejBLR3d5N2dnSFE5bDRTVzdLQkdqeE1NeFp2TmEyaVBqSDZEZ2RzVjRzcmJWNjlYWDFhanYiLCJtYWMiOiIxOGI2MGRlOGY0MzIzMDQzNjk4NDYzZGVmYzllYTEwZTI4NjNlYTBmYTg4ODdmM2FlNjY0NmEyYmEwY2VhNDdiIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6ImwxZkVjb0hZRkNxYUp2RVA3ZEpQekE9PSIsInZhbHVlIjoiSktiTFBxQnhienJMNTZPdHN1T1NhSHVHbGYyV2hPMkhmR3dYaVY3YStxa0szYzcrSDAraFpFcTJ2NWZyQ3BMdDhTdkFIQTVXZWhZdzNqbEFEZHhyRmt6clBueE5laXFSNjY4UlJ1Tm9SUGxXeFo0T1ZIRXZObFMzSzkzeFo3U20iLCJtYWMiOiI3ZmUyZTc3ZjQ2NGY3NGU2MjYwNDg4ODA5ZTRlNGRmYzZkZDI2ZmNhN2E0NTMyMGI0ODdiNDRjYzA2MmZiODlhIiwidGFnIjoiIn0%3D"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Beverages sdsd\",\n    \"description\": \"asdasd sdsd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/categories/update/:id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"update",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "14|VqMSvtdmovLMsQKDV560vWEzs9bCLQXhbVMyrp3h652385ba"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/categories/delete/:id",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"categories",
+								"delete",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
